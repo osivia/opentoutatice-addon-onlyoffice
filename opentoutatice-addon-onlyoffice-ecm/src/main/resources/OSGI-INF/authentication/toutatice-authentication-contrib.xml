@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<component name="org.osivia.onlyoffice.authentication">
+
+  <!-- Replace Automation specific authentication chain -->
+  <require>org.nuxeo.ecm.login.token.authentication.contrib</require>
+  <require>org.osivia.jwt.service</require>
+  <require>org.osivia.onlyoffice.token</require>
+  <require>org.nuxeo.ecm.platform.oauth.auth.defaultConfig</require>
+  
+  
+  <extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="preFilter">
+
+      <preFilter name="OAuth" class="org.nuxeo.ecm.platform.ui.web.auth.oauth.NuxeoOAuthFilter" enabled="false"/>
+      <preFilter name="OAuth2" class="org.nuxeo.ecm.platform.ui.web.auth.oauth2.NuxeoOAuth2Filter" enabled="false"/>
+
+  </extension>
+  
+  
+  <extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="authenticators">
+
+    <authenticationPlugin name="ONLYOFFICE_JWT_TOKEN_AUTH" enabled="true" class="org.osivia.jwt.authentication.JWTTokenAuthenticator">
+		<loginModulePlugin>Trusting_LM</loginModulePlugin>
+		<parameters>
+ 			<parameter name="allowAnonymous">false</parameter>
+ 			<parameter name="algorithmId">onlyoffice</parameter>
+		</parameters>
+    </authenticationPlugin>
+    
+    <authenticationPlugin name="ONLYOFFICE_PAYLOAD_TOKEN_AUTH" enabled="true" class="org.osivia.onlyoffice.authentication.OnlyofficeTokenAuthenticator">
+		<loginModulePlugin>Trusting_LM</loginModulePlugin>
+		<parameters>
+ 			<parameter name="allowAnonymous">false</parameter>
+ 			<parameter name="algorithmId">onlyoffice</parameter>
+		</parameters>
+    </authenticationPlugin>
+
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="specificChains">
+
+    <specificAuthenticationChain name="tokenFileDownload">
+      <urlPatterns>
+        <url>(.*)/nxbigfile/.*</url>
+        <url>(.*)/nxfile/.*</url>
+      </urlPatterns>
+      <replacementChain>
+        <plugin>AUTOMATION_BASIC_AUTH</plugin>
+        <plugin>ONLYOFFICE_JWT_TOKEN_AUTH</plugin>
+      </replacementChain>
+    </specificAuthenticationChain>
+    
+    <specificAuthenticationChain name="tokenOnlyofficeServlet">
+		<urlPatterns>
+			<url>(.*)/site/onlyoffice/callbackEdit/.*</url>
+			<url>(.*)/site/onlyoffice/callbackCoEdit/.*</url>
+		</urlPatterns>
+		<replacementChain>
+			<plugin>AUTOMATION_BASIC_AUTH</plugin>
+			<plugin>ONLYOFFICE_PAYLOAD_TOKEN_AUTH</plugin>
+		</replacementChain>
+    </specificAuthenticationChain>
+    
+  </extension>
+
+</component>

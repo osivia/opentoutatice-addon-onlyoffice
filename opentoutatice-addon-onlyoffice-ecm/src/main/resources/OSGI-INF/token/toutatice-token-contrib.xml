@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="org.osivia.onlyoffice.token">
+
+	<require>org.osivia.jwt.service</require>
+	
+	<extension target="org.osivia.jwt.service" point="token">
+		<token id="onlyoffice" name="${ottc.onlyoffice.token.algorithm.name}" key="${ottc.onlyoffice.token.algorithm.key}" duration="${ottc.onlyoffice.token.algorithm.duration}"/>
+	</extension>
+
+</component>

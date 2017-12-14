@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>opentoutatice-ecm.onlyoffice</groupId>
+        <artifactId>opentoutatice-onlyoffice-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>opentoutatice-addon-onlyoffice-ecm</artifactId>
+    <name>Onlyoffice plugin</name>
+    <description>Onlyoffice plugin.</description>
+
+    <dependencies>
+    	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+	    	<groupId>opentoutatice-ecm.jwt</groupId>
+			<artifactId>opentoutatice-addon-jwt-ecm</artifactId>
+	    </dependency>
+    
+        <dependency>
+			<groupId>org.nuxeo.ecm.automation</groupId>
+			<artifactId>nuxeo-automation-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.nuxeo.ecm.platform</groupId>
+			<artifactId>nuxeo-platform-login-token</artifactId>
+		</dependency>
+		
+        <dependency>
+            <groupId>opentoutatice-ecm.platform</groupId>
+            <artifactId>opentoutatice-ecm-platform-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>opentoutatice-ecm.platform</groupId>
+            <artifactId>opentoutatice-ecm-platform-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <configuration>
+                    <additionalProjectnatures>
+                        <projectnature>org.nuxeo.ide.NuxeoNature</projectnature>
+                    </additionalProjectnatures>
+                    <classpathContainers>
+                        <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+                        <classpathContainer>org.nuxeo.ide.SDK_CONTAINER</classpathContainer>
+                        <classpathContainer>org.nuxeo.ide.SDK_TEST_CONTAINER</classpathContainer>
+                        <classpathContainer>org.nuxeo.ide.SDK_USERLIB_CONTAINER</classpathContainer>
+                    </classpathContainers>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                        <manifestEntries>
+                            <Bundle-Version>${eclipseVersion}-t${buildNumber}</Bundle-Version>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <scm>
+        <developerConnection>scm:svn:http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>toutatice-releases</id>
+            <url>http://projet.toutatice.fr/nexus/content/repositories/toutatice-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>toutatice-snapshots</id>
+            <url>http://projet.toutatice.fr/nexus/content/repositories/toutatice-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

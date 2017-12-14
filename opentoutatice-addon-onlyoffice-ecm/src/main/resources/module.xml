@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<module name="onlyoffice" root-type="OnlyOffice" path="/onlyoffice" extends="base">
+
+</module>

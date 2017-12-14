@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-Category: stateful
+Bundle-Name: Opentoutatice addon managing onlyoffice
+Bundle-Localization: plugin
+Bundle-ManifestVersion: 1
+Bundle-SymbolicName: org.osivia.addon.onlyoffice;singleton:=true
+Nuxeo-WebModule: org.nuxeo.ecm.webengine.app.WebEngineModule
+Nuxeo-Component: OSGI-INF/authentication/toutatice-authentication-contrib.xml,
+ OSGI-INF/token/toutatice-token-contrib.xml,
+ OSGI-INF/listener/toutatice-listener-contrib.xml

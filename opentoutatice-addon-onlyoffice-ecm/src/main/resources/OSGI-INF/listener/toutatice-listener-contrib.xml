@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<component name="org.osivia.onlyoffice.eventlistener">
+
+    <require>org.nuxeo.ecm.core.event.EventServiceComponent</require>
+
+	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+
+		<listener name="onlyofficeSaveDocumentListener" async="true"
+			postCommit="true"
+            enabled="true"
+			class="org.osivia.onlyoffice.listener.OnlyofficeSaveDocumentListener"
+			priority="100">
+			<event>OnlyofficeSaveDocumentEvent</event>
+		</listener>
+		
+	</extension>
+
+</component>
+
+
