@@ -1,0 +1,36 @@
+<project name="nuxeo-assembly"
+	default="build"
+	xmlns:nx="urn:nuxeo-build"
+	xmlns:artifact="urn:nuxeo-artifact">
+
+	<taskdef resource="org/nuxeo/build/antlib.xml" uri="urn:nuxeo-build" />
+	<taskdef resource="org/nuxeo/build/artifact/antlib.xml" uri="urn:nuxeo-artifact" />
+
+	<target name="build" description="Build the marketplace package of the onlyoffice Opentoutatice addon.">
+		<property name="outdir" value="${maven.project.build.directory}" />
+		<mkdir dir="${outdir}" />
+		<tstamp />
+
+		<delete failonerror="false" dir="${outdir}/marketplace" />
+		<mkdir dir="${outdir}/marketplace" />
+		<copy todir="${outdir}/marketplace">
+			<fileset dir="src/main/resources" />
+			<filterset>
+				<filter token="VERSION" value="${maven.project.version}" />
+				<filter token="DISTRIB_VERSION" value="${nuxeo.version}" />
+				<filter token="CAP_DISTRIB_VERSION" value="${nuxeo.cap.version}" />
+				<filter token="OTTC_VERSION" value="${nuxeo.opentoutatice.version}" />
+				<filter token="OTTC_ES_CUSTOMIZER_VERSION" value="${ottc.addon.es.customizer.version}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${outdir}/marketplace/install/bundles">
+			<!-- Your bundles -->
+			<artifact:resolveFile key="opentoutatice-ecm.onlyoffice:opentoutatice-addon-onlyoffice-ecm:${maven.project.version}:jar" />
+		</copy>
+
+		<zip destfile="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" basedir="${outdir}/marketplace" />
+		<artifact:attach file="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" type="zip" />
+	</target>
+
+</project>

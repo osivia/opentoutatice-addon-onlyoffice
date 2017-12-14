@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>opentoutatice-ecm.onlyoffice</groupId>
+		<artifactId>opentoutatice-onlyoffice-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>opentoutatice-addon-onlyoffice-marketplace</artifactId>
+	<packaging>zip</packaging>
+	<name>Onlyoffice plugin - marketplace</name>
+
+	<dependencies>
+ 		<dependency> 
+ 			<groupId>org.nuxeo.ecm.distribution</groupId>
+ 			<artifactId>nuxeo-distribution-cap</artifactId>
+ 			<type>pom</type>
+ 		</dependency>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.nuxeo.build</groupId>
+				<artifactId>ant-assembly-maven-plugin</artifactId>
+				<configuration>
+					<buildFiles>
+						<buildFile>${basedir}/src/main/assemble/assembly.xml</buildFile>
+					</buildFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<developerConnection>scm:svn:http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk</developerConnection>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>toutatice-releases</id>
+			<url>http://projet.toutatice.fr/nexus/content/repositories/toutatice-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>toutatice-snapshots</id>
+			<url>http://projet.toutatice.fr/nexus/content/repositories/toutatice-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>

@@ -1,0 +1,5 @@
+<install>
+
+	<update file="${package.root}/install/bundles" todir="${env.server.home}/nxserver/plugins" />
+	
+</install>
