@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>opentoutatice-ecm.onlyoffice</groupId>
+	<artifactId>opentoutatice-onlyoffice-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>Onlyoffice feature - parent</name>
+	<description>Onlyoffice addon.</description>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<properties>
+		<nuxeo.version>6.0-HF34</nuxeo.version>
+		<nuxeo.cap.distribution.version>6.0</nuxeo.cap.distribution.version>
+		<ottc.version>4.4-SNAPSHOT</ottc.version>
+		<ottc.jwt.version>1.0.0-SNAPSHOT</ottc.jwt.version>
+	</properties>
+
+	<modules>
+	   <module>opentoutatice-addon-onlyoffice-ecm</module>
+	   <module>opentoutatice-addon-onlyoffice-marketplace</module>
+	</modules>
+	
+	<dependencyManagement>
+		<dependencies>
+		     <dependency>
+		        <groupId>org.nuxeo.ecm.distribution</groupId>
+		        <artifactId>nuxeo-distribution</artifactId>
+		        <version>${nuxeo.version}</version>
+		        <type>pom</type>
+		        <scope>import</scope>
+		    </dependency>
+		    
+		    <dependency>
+		        <groupId>org.nuxeo.ecm.distribution</groupId>
+		        <artifactId>nuxeo-distribution-cap</artifactId>
+		        <version>${nuxeo.cap.distribution.version}</version>
+		        <type>pom</type>
+		    </dependency>
+		    
+		    <dependency>
+				<groupId>org.nuxeo.ecm.automation</groupId>
+				<artifactId>nuxeo-automation-core</artifactId>
+				<version>${nuxeo.version}</version>
+			</dependency>
+            
+			<dependency>
+				<groupId>opentoutatice-ecm.platform</groupId>
+				<artifactId>opentoutatice-ecm-platform-core</artifactId>
+				<version>${ottc.version}</version>
+			</dependency>
+			
+		    <dependency>
+		    	<groupId>opentoutatice-ecm.jwt</groupId>
+				<artifactId>opentoutatice-addon-jwt-ecm</artifactId>
+				<version>${ottc.jwt.version}</version>
+		    </dependency>
+		    
+			<dependency>
+				<groupId>opentoutatice-ecm.platform</groupId>
+				<artifactId>opentoutatice-ecm-platform-web</artifactId>
+				<version>${ottc.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <tagBase>http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/tags</tagBase>
+                    <releaseProfiles>unpack,pack</releaseProfiles>
+                    <preparationGoals>clean install</preparationGoals>
+                    <goals>deploy</goals>
+                    </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin> 
+		</plugins>			
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.nuxeo.build</groupId>
+					<artifactId>ant-assembly-maven-plugin</artifactId>
+					<version>2.0.1</version>
+					<extensions>true</extensions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<scm>
+		<developerConnection>scm:svn:http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk</developerConnection>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>toutatice-releases</id>
+			<url>http://projet.toutatice.fr/nexus/content/repositories/toutatice-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>toutatice-snapshots</id>
+			<url>http://projet.toutatice.fr/nexus/content/repositories/toutatice-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
+</project>
+
