@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
@@ -53,13 +54,20 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
 
             if (status != null && url != null && status == 2) {
                 try {
+                    String docTitle = doc.getTitle();
+
                     BlobHolder bh = doc.getAdapter(BlobHolder.class);
                     Blob originalBlob = bh.getBlob();
                     String originalFilename = originalBlob.getFilename();
                     String originalExt = FileUtility.getFileExtension(originalFilename);
                     String onlyofficeExt = FileUtility.getOnlyOfficeExtension(originalFilename);
-
                     String updatedFilename = FileUtility.getFileNameWithoutExtension(originalFilename) + onlyofficeExt;
+
+                    // If the docTitle is similar to the filename (.i.e the file was imported and the title hasn't changed), update the title with the new
+                    // filename
+                    if (StringUtils.equalsIgnoreCase(docTitle, originalFilename)) {
+                        doc.setProperty("dublincore", "title", updatedFilename);
+                    }
 
                     Blob blob = getOnlyofficeBlob(url);
                     blob.setFilename(updatedFilename);
