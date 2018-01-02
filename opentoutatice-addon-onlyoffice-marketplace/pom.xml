@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>opentoutatice-ecm.onlyoffice</groupId>
 		<artifactId>opentoutatice-onlyoffice-parent</artifactId>
-		<version>4.4-RC2</version>
+		<version>4.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>opentoutatice-addon-onlyoffice-marketplace</artifactId>
