@@ -21,6 +21,7 @@ import org.nuxeo.ecm.core.event.EventContext;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import org.nuxeo.ecm.core.versioning.VersioningService;
+import org.nuxeo.runtime.api.Framework;
 import org.osivia.onlyoffice.util.FileUtility;
 
 import fr.toutatice.ecm.platform.core.edition.CurrentlyEditedCacheHelper;
@@ -31,7 +32,17 @@ import fr.toutatice.ecm.platform.core.edition.CurrentlyEditedCacheHelper;
  */
 public class OnlyofficeSaveDocumentListener implements EventListener {
 
-    public static final String ONLYOFFICE_SAVEDOCUMENT_EVENT_NAME = "OnlyofficeSaveDocumentEvent";
+    /**
+	 * Reverse proxy path used in front, is deleted when url are transformed to private url
+	 */
+	private static final String OTTC_ONLYOFFICE_PROXY_PATH = "ottc.onlyoffice.proxy.path";
+
+	/**
+	 * Private hostname of onlyoffice
+	 */
+	private static final String OTTC_ONLYOFFICE_SERVER_URL = "ottc.onlyoffice.server.url";
+
+	public static final String ONLYOFFICE_SAVEDOCUMENT_EVENT_NAME = "OnlyofficeSaveDocumentEvent";
 
     public static final String ONLYOFFICE_CALLBACK_STATUS_PROPERTY = "OnlyofficeCallbackStatus";
 
@@ -100,6 +111,15 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
         InputStream stream = null;
         try {
             URL url = new URL(downloadUri);
+
+            // LBI #1733 transform url in private format (if needed by proxies)
+            String onlyOfficeUrl = Framework.getProperty(OTTC_ONLYOFFICE_SERVER_URL);
+			if(StringUtils.isNotBlank(onlyOfficeUrl)) {
+				
+				String path = url.getPath().replace(Framework.getProperty(OTTC_ONLYOFFICE_PROXY_PATH), "");
+				url = new URL(onlyOfficeUrl + path + "?" + url.getQuery());
+            }
+            
             connection = (HttpURLConnection) url.openConnection();
             stream = connection.getInputStream();
             byte[] bytes = IOUtils.toByteArray(stream);
