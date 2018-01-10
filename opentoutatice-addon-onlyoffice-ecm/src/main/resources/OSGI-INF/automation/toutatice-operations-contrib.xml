@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="org.osivia.onlyoffice.operation"
+	version="1.0">
+
+	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
+		point="operations">
+		
+		<operation class="org.osivia.onlyoffice.automation.IsDocumentCurrentlyEdited" />
+	</extension>
+</component>
