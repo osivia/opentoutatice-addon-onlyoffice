@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<name>Onlyoffice feature - parent</name>
 	<description>Onlyoffice addon.</description>
-	<version>4.4-SNAPSHOT</version>
+	<version>4.4-RC3</version>
 
 	<properties>
 		<nuxeo.version>6.0-HF34</nuxeo.version>
@@ -102,7 +102,7 @@
 	</build>
 
 	<scm>
-		<developerConnection>scm:svn:http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk</developerConnection>
+		<developerConnection>scm:svn:http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/tags/4.4-RC3</developerConnection>
 	</scm>
 
 	<distributionManagement>
