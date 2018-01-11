@@ -86,7 +86,14 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
 
                     bh.setBlob(blob);
 
-                    if (!originalExt.equalsIgnoreCase(onlyofficeExt) || session.isCheckedOut(doc.getRef())) {
+                    // LBI #1769 - fix problem with first renaming
+                    if (!originalExt.equalsIgnoreCase(onlyofficeExt) || session.isCheckedOut(doc.getRef()) ) {
+                    	
+                        if(!session.isCheckedOut(doc.getRef())) {
+                        	session.checkOut(doc.getRef());
+                        	
+                        }
+                    	
                         session.checkIn(doc.getRef(), VersioningOption.NONE, "historisation avant modification onlyoffice");
                     }
 
@@ -99,7 +106,7 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
                     session.saveDocument(doc);
 
                 } catch (Exception e) {
-                    log.error(e);
+                    log.error("erreur",e.getCause());
                 }
                 CurrentlyEditedCacheHelper.invalidate(doc);
             }
