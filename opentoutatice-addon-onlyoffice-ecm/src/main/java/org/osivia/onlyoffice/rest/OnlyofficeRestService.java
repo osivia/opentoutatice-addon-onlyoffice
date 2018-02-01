@@ -23,6 +23,7 @@ import org.nuxeo.runtime.api.Framework;
 import org.osivia.onlyoffice.listener.OnlyofficeSaveDocumentListener;
 
 import fr.toutatice.ecm.platform.core.edition.CurrentlyEditedCacheHelper;
+import fr.toutatice.ecm.platform.core.edition.TemporaryLockedCacheHelper;
 
 @Path("/onlyoffice")
 @Produces("application/json")
@@ -58,6 +59,8 @@ public class OnlyofficeRestService extends ModuleRoot {
             case 0:
                 // 0 - no document with the key identifier could be found
                 CurrentlyEditedCacheHelper.invalidate(documentModel);
+                
+                removeLockIfExists(session, documentModel);
                 break;
             case 1:
                 // 1 - document is being edited,
@@ -70,9 +73,11 @@ public class OnlyofficeRestService extends ModuleRoot {
             case 3:
                 // 3 - document saving error has occurred
                 CurrentlyEditedCacheHelper.invalidate(documentModel);
+                removeLockIfExists(session, documentModel);
             case 4:
                 // 4 - document is closed with no changes
                 CurrentlyEditedCacheHelper.invalidate(documentModel);
+                removeLockIfExists(session, documentModel);
             case 5:
             case 6:
                 // 6 - document is being edited, but the current document state is saved,
@@ -87,6 +92,14 @@ public class OnlyofficeRestService extends ModuleRoot {
 
         return "{\"error\":0}";
     }
+
+	private void removeLockIfExists(CoreSession session, DocumentModel doc) {
+		if(TemporaryLockedCacheHelper.get(doc) != null) {
+			session.removeLock(doc.getRef());
+			TemporaryLockedCacheHelper.invalidate(doc);
+			
+		}
+	}
 
     @Path("callbackCoEdit/{docId}")
     @POST

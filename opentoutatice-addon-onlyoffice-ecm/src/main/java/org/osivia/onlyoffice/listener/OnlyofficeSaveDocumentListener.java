@@ -25,6 +25,7 @@ import org.nuxeo.runtime.api.Framework;
 import org.osivia.onlyoffice.util.FileUtility;
 
 import fr.toutatice.ecm.platform.core.edition.CurrentlyEditedCacheHelper;
+import fr.toutatice.ecm.platform.core.edition.TemporaryLockedCacheHelper;
 
 
 /**
@@ -109,6 +110,12 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
                     log.error("erreur",e.getCause());
                 }
                 CurrentlyEditedCacheHelper.invalidate(doc);
+                
+                if(TemporaryLockedCacheHelper.get(doc) != null) {
+                	session.removeLock(doc.getRef());
+                	TemporaryLockedCacheHelper.invalidate(doc);
+                	
+                }
             }
         }
     }
