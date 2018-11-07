@@ -72,7 +72,6 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.2.1</version>
                 <configuration>
-                    <tagBase>http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/tags</tagBase>
                     <releaseProfiles>unpack,pack</releaseProfiles>
                     <preparationGoals>clean install</preparationGoals>
                     <goals>deploy</goals>
@@ -101,9 +100,13 @@
 		</pluginManagement>
 	</build>
 
+	
 	<scm>
-		<developerConnection>scm:svn:http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk</developerConnection>
-	</scm>
+		<url>https://github.com/osivia/opentoutatice-addon-onlyoffice</url>
+		<connection>scm:git:ssh://git@github.com/osivia/opentoutatice-addon-onlyoffice.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/osivia/opentoutatice-addon-onlyoffice.git</developerConnection>     
+		<tag>HEAD</tag> 
+    </scm>
 
 	<distributionManagement>
 		<repository>
