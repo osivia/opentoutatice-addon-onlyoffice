@@ -13,8 +13,8 @@
 	<properties>
 		<nuxeo.version>6.0-HF34</nuxeo.version>
 		<nuxeo.cap.distribution.version>6.0</nuxeo.cap.distribution.version>
-		<ottc.version>4.4.3-RC2</ottc.version>
-		<ottc.jwt.version>4.7-SNAPSHOT</ottc.jwt.version>
+		<ottc.version>4.7.6</ottc.version>
+		<ottc.jwt.version>4.7</ottc.jwt.version>
 	</properties>
 
 	<modules>
