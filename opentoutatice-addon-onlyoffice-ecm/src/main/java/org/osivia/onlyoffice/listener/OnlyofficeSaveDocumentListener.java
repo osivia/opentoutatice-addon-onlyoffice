@@ -48,6 +48,10 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
     public static final String ONLYOFFICE_CALLBACK_STATUS_PROPERTY = "OnlyofficeCallbackStatus";
 
     public static final String ONLYOFFICE_CALLBACK_URL_PROPERTY = "OnlyofficeCallbackUrl";
+    
+    public static final String ONLYOFFICE_CALLBACK_IP = "OnlyofficeCallbackIP";    
+    
+    public static final String ONLYOFFICE_CALLBACK_IP_TOKEN = "{IP}";    
 
     private static Log log = LogFactory.getLog(OnlyofficeSaveDocumentListener.class);
 
@@ -63,6 +67,7 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
             Integer status = (Integer) docCtx.getProperty(ONLYOFFICE_CALLBACK_STATUS_PROPERTY);
 
             String url = (String) docCtx.getProperty(ONLYOFFICE_CALLBACK_URL_PROPERTY);
+            String ip = (String) docCtx.getProperty(ONLYOFFICE_CALLBACK_IP);            
 
             if (status != null && url != null && status == 2) {
                 try {
@@ -81,7 +86,7 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
                         doc.setProperty("dublincore", "title", updatedFilename);
                     }
 
-                    Blob blob = getOnlyofficeBlob(url);
+                    Blob blob = getOnlyofficeBlob(url, ip);
                     blob.setFilename(updatedFilename);
                     blob.setMimeType(FileUtility.getOnlyofficeMimeType(originalFilename));
 
@@ -120,7 +125,7 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
         }
     }
 
-    private Blob getOnlyofficeBlob(String downloadUri) {
+    private Blob getOnlyofficeBlob(String downloadUri, String ip) {
         HttpURLConnection connection = null;
         InputStream stream = null;
         try {
@@ -129,9 +134,14 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
             // LBI #1733 transform url in private format (if needed by proxies)
             String onlyOfficeUrl = Framework.getProperty(OTTC_ONLYOFFICE_SERVER_URL);
 			if(StringUtils.isNotBlank(onlyOfficeUrl)) {
-				
-				String path = url.getPath().replace(Framework.getProperty(OTTC_ONLYOFFICE_PROXY_PATH), "");
-				url = new URL(onlyOfficeUrl + path + "?" + url.getQuery());
+
+                if (onlyOfficeUrl.contains(ONLYOFFICE_CALLBACK_IP_TOKEN)) {
+                    onlyOfficeUrl = onlyOfficeUrl.replace(ONLYOFFICE_CALLBACK_IP_TOKEN, ip);
+                }
+
+                String path = url.getPath().replace(Framework.getProperty(OTTC_ONLYOFFICE_PROXY_PATH), "");
+                url = new URL(onlyOfficeUrl + path + "?" + url.getQuery());
+
             }
             
             connection = (HttpURLConnection) url.openConnection();

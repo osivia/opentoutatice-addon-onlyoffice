@@ -5,11 +5,13 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -39,7 +41,7 @@ public class OnlyofficeRestService extends ModuleRoot {
 
     @Path("callbackEdit/{docId}")
     @POST
-    public Object callbackEdit(@PathParam("docId") final String docId, OnlyofficeCallback onlyofficeCallback) {
+    public Object callbackEdit(@PathParam("docId") final String docId, @Context HttpServletRequest req, OnlyofficeCallback onlyofficeCallback) {
 
         CoreSession session = getSession();
         DocumentModel documentModel = session.getDocument(new IdRef(docId));
@@ -53,6 +55,8 @@ public class OnlyofficeRestService extends ModuleRoot {
 
         properties.put(OnlyofficeSaveDocumentListener.ONLYOFFICE_CALLBACK_STATUS_PROPERTY, onlyofficeCallback.getStatus());
         properties.put(OnlyofficeSaveDocumentListener.ONLYOFFICE_CALLBACK_URL_PROPERTY, onlyofficeCallback.getUrl());
+        properties.put(OnlyofficeSaveDocumentListener.ONLYOFFICE_CALLBACK_IP, req.getRemoteAddr());
+        
         eventCtx.setProperties(properties);
 
         switch (status) {
