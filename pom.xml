@@ -109,15 +109,15 @@
     </scm>
 
 	<distributionManagement>
-		<repository>
-			<id>toutatice-releases</id>
-			<url>https://projet.toutatice.fr/nexus/content/repositories/toutatice-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>toutatice-snapshots</id>
-			<url>https://projet.toutatice.fr/nexus/content/repositories/toutatice-snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-	
+        <repository>
+            <id>osivia-releases</id>
+            <url>http://www.osivia.org/nexus/content/repositories/osivia-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>osivia-snapshots</id>
+            <url>http://www.osivia.org/nexus/content/repositories/osivia-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
 </project>
 
