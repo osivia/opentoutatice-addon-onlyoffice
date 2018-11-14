@@ -51,7 +51,7 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
     
     public static final String ONLYOFFICE_CALLBACK_IP = "OnlyofficeCallbackIP";    
     
-    public static final String ONLYOFFICE_CALLBACK_IP_TOKEN = "{IP}";    
+    public static final String ONLYOFFICE_CALLBACK_IP_TOKEN = "onlyoffice-ip";    
 
     private static Log log = LogFactory.getLog(OnlyofficeSaveDocumentListener.class);
 
