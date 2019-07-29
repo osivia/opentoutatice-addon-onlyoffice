@@ -11,19 +11,20 @@
 	<version>4.7-SNAPSHOT</version>
 
 	<properties>
-		<nuxeo.version>6.0-HF34</nuxeo.version>
-		<nuxeo.cap.distribution.version>6.0</nuxeo.cap.distribution.version>
-		<ottc.version>4.7.6</ottc.version>
-		<ottc.jwt.version>4.7</ottc.jwt.version>
+		<nuxeo.version>6.1.0</nuxeo.version>
+		<!-- <nuxeo.cap.distribution.version>6.0</nuxeo.cap.distribution.version> -->
+		<ottc.version>4.7.17</ottc.version>
+		<ottc.jwt.version>4.7.17</ottc.jwt.version>
 	</properties>
 
 	<modules>
 	   <module>opentoutatice-addon-onlyoffice-ecm</module>
-	   <module>opentoutatice-addon-onlyoffice-marketplace</module>
+	   <!-- <module>opentoutatice-addon-onlyoffice-marketplace</module> -->
 	</modules>
 	
 	<dependencyManagement>
 		<dependencies>
+		<!-- 
 		     <dependency>
 		        <groupId>org.nuxeo.ecm.distribution</groupId>
 		        <artifactId>nuxeo-distribution</artifactId>
@@ -38,7 +39,7 @@
 		        <version>${nuxeo.cap.distribution.version}</version>
 		        <type>pom</type>
 		    </dependency>
-		    
+		     -->
 		    <dependency>
 				<groupId>org.nuxeo.ecm.automation</groupId>
 				<artifactId>nuxeo-automation-core</artifactId>
@@ -86,7 +87,16 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin> 
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
+                </configuration>
+            </plugin>			
 		</plugins>			
 		<pluginManagement>
 			<plugins>
