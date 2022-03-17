@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<component name="org.osivia.onlyoffice.forms.doctypes">
+
+	<require>org.nuxeo.ecm.core.schema.TypeService</require>
+	<require>org.nuxeo.ecm.platform.types.TypeService</require>
+	<require>org.nuxeo.ecm.core.lifecycle.LifeCycleService</require>
+
+	<extension target="org.nuxeo.ecm.core.schema.TypeService"
+		point="doctype">
+
+		<doctype name="DocxfFile" extends="File">
+
+		</doctype>
+
+		<doctype name="OformFile" extends="File">
+
+		</doctype>
+
+	</extension>
+
+	<extension target="org.nuxeo.ecm.platform.types.TypeService"
+		point="types">
+
+		<type id="Folder">
+			<subtypes>
+				<type>DocxfFile</type>
+				<type>OformFile</type>
+			</subtypes>
+		</type>
+
+
+		<type id="DocxfFile">
+			<label>Fichier docxf onlyoffice</label>
+			<category>SimpleDocument</category>
+			<icon>/icons/docxf.png</icon>
+			<bigIcon>/icons/docxf.png</bigIcon>
+			<icon-expanded>/icons/docxf.png</icon-expanded>
+			<description></description>
+			<default-view>view_documents</default-view>
+			<layouts mode="any">
+				<layout>heading</layout>
+				<layout>file</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>dublincore</layout>
+			</layouts>
+		</type>		
+		
+		
+		<type id="OformFile">
+			<label>Fichier oform onlyoffice</label>
+			<category>SimpleDocument</category>
+			<icon>/icons/oform.png</icon>
+			<bigIcon>/icons/oform.png</bigIcon>
+			<icon-expanded>/icons/oform.png</icon-expanded>
+			<description></description>
+			<default-view>view_documents</default-view>
+			<layouts mode="any">
+				<layout>heading</layout>
+				<layout>file</layout>
+			</layouts>
+			<layouts mode="edit">
+				<layout>heading</layout>
+				<layout>file</layout>
+				<layout>dublincore</layout>
+			</layouts>
+		</type>			
+	</extension>
+
+	<extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
+		point="types">
+
+		<types>
+			<type name="DocxfFile">default_toutatice</type>
+			<type name="OformFile">default_toutatice</type>
+		</types>
+
+	</extension>
+	
+</component>

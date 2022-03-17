@@ -4,5 +4,7 @@ package org.osivia.onlyoffice.util;
 public enum FileType {
     TEXT,
     SPREADSHEET,
-    PRESENTATION
+    PRESENTATION, 
+    DOCXF,
+    OFORM;
 }

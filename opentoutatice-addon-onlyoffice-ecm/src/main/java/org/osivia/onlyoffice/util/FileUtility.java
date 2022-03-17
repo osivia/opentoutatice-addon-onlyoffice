@@ -11,6 +11,8 @@ public class FileUtility
     public static final String SPREADSHEET_EXTENSION = ".xlsx";
     public static final String PRESENTATION_EXTENSION = ".pptx";
     public static final String TEXT_EXTENSION = ".docx";
+    public static final String DOCXF_EXTENSION = ".docxf";
+    public static final String OFORM_EXTENSION = ".oform";
     public static final String XLSX_MIME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     public static final String PPTX_MIME_TYPE = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
     public static final String DOCX_MIME_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -41,7 +43,13 @@ public class FileUtility
         if (ExtsPresentation.contains(ext)) {
             return FileType.PRESENTATION;
         }
-
+        
+        if (ExtDocxf.contains(ext)) {
+        	return FileType.DOCXF;
+        }
+        if (ExtOform.contains(ext)) {
+        	return FileType.OFORM;
+        }
         return FileType.TEXT;
     }
 
@@ -100,6 +108,10 @@ public class FileUtility
         {
             case TEXT:
                 return DOCX_MIME_TYPE;
+            case DOCXF:
+            	return DOCX_MIME_TYPE;
+            case OFORM:
+            	return DOCX_MIME_TYPE;
             case PRESENTATION:
                 return PPTX_MIME_TYPE;
             case SPREADSHEET:
@@ -128,6 +140,10 @@ public class FileUtility
                 return PRESENTATION_EXTENSION;
             case SPREADSHEET:
                 return SPREADSHEET_EXTENSION;
+            case DOCXF:
+            	return DOCXF_EXTENSION;
+            case OFORM:
+            	return OFORM_EXTENSION;
         }
 
         return TEXT_EXTENSION;
@@ -148,6 +164,15 @@ public class FileUtility
      * extension des documents compatibles PowerPoint
      */
     protected static final List<String> ExtsPresentation = Arrays.asList(".pps", ".ppsx", ".ppt", PRESENTATION_EXTENSION, ".odp");
+    
+    /**
+     * extension de document onlyoffice docxf
+     */
+    protected static final List<String> ExtDocxf = Arrays.asList(DOCXF_EXTENSION);
+    /**
+     * extension de document onlyoffice oform
+     */
+    protected static final List<String> ExtOform = Arrays.asList(OFORM_EXTENSION);
 
     /**
      * Nom du fichier associé à une URL
