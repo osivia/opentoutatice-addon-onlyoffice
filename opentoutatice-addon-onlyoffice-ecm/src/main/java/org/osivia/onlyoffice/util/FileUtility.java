@@ -142,7 +142,7 @@ public class FileUtility
     /**
      * extension des documents compatibles Excel
      */
-    protected static final List<String> ExtsSpreadsheet = Arrays.asList(".xls", SPREADSHEET_EXTENSION, ".ods", ".csv");
+    protected static final List<String> ExtsSpreadsheet = Arrays.asList(".xls", SPREADSHEET_EXTENSION, ".ods", ".csv", ".xlsm", ".xlst");
 
     /**
      * extension des documents compatibles PowerPoint
