@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
@@ -31,10 +33,26 @@ import fr.toutatice.ecm.platform.core.edition.TemporaryLockedCacheHelper;
 @WebObject(type = "OnlyOffice")
 public class OnlyofficeRestService extends ModuleRoot {
 
+
+    protected static final Log log = LogFactory.getLog("onlyoffice");
+
+
     private final EventProducer eventProducer;
+
+    private final Map<Integer, String> messages;
 
     public OnlyofficeRestService() {
         eventProducer = Framework.getService(EventProducer.class);
+
+        messages = new HashMap<>();
+        messages.put(1, "document is being edited");
+        messages.put(2, "document is ready for saving");
+        messages.put(3, "document saving error has occurred");
+        messages.put(4, "document is closed with no change");
+        messages.put(6, "document is being edited, but the current document state is saved");
+        messages.put(7, "error has occurred while force saving the document");
+
+
     }
 
     @Path("callbackEdit/{docId}")
@@ -45,9 +63,16 @@ public class OnlyofficeRestService extends ModuleRoot {
         DocumentModel documentModel = session.getDocument(new IdRef(docId));
 
         Principal principal = session.getPrincipal();
+
+
+
         DocumentEventContext eventCtx = new DocumentEventContext(session, principal, documentModel);
 
+
         int status = onlyofficeCallback.getStatus();
+
+        log.info("callback docId:"+docId+ " userId:"+principal.getName()+" status:"+status+" ("+messages.get(status)+")");
+
 
         Map<String, Serializable> properties = new HashMap<>();
 
@@ -55,8 +80,11 @@ public class OnlyofficeRestService extends ModuleRoot {
         properties.put(OnlyofficeSaveDocumentListener.ONLYOFFICE_CALLBACK_URL_PROPERTY, onlyofficeCallback.getUrl());
         eventCtx.setProperties(properties);
 
+        String statusMsg = null;
+
         switch (status) {
             case 0:
+
                 // 0 - no document with the key identifier could be found
                 CurrentlyEditedCacheHelper.invalidate(documentModel);
                 
@@ -89,6 +117,8 @@ public class OnlyofficeRestService extends ModuleRoot {
             default:
                 break;
         }
+
+
 
         return "{\"error\":0}";
     }

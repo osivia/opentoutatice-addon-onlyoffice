@@ -2,8 +2,11 @@ package org.osivia.onlyoffice.listener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Principal;
+import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +35,8 @@ import fr.toutatice.ecm.platform.core.edition.TemporaryLockedCacheHelper;
  * @author dorian
  */
 public class OnlyofficeSaveDocumentListener implements EventListener {
+
+    protected static final Log oolog = LogFactory.getLog("onlyoffice");
 
     /**
 	 * Reverse proxy path used in front, is deleted when url are transformed to private url
@@ -81,7 +86,16 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
                         doc.setProperty("dublincore", "title", updatedFilename);
                     }
 
+                    Serializable webid = doc.getPropertyValue("ttc:webid");
+
+                    Principal principal = session.getPrincipal();
+                    oolog.info("About to download docId:"+doc.getId()+ " webid:"+webid+" userId:"+principal.getName());
+                    long btime = new Date().getTime();
+
                     Blob blob = getOnlyofficeBlob(url);
+                    long etime = new Date().getTime();
+                    oolog.info("Downloaded docId:"+doc.getId()+ " webid:"+webid+" userId:"+principal.getName()+" time:"+(etime - btime)+"ms");
+
                     blob.setFilename(updatedFilename);
                     blob.setMimeType(FileUtility.getOnlyofficeMimeType(originalFilename));
 
@@ -105,9 +119,14 @@ public class OnlyofficeSaveDocumentListener implements EventListener {
                     }
 
                     session.saveDocument(doc);
+                    long stime = new Date().getTime();
+                    oolog.info("Saved docId:"+doc.getId()+ "  webid:"+webid+" userId:"+principal.getName()+" time:"+(stime - etime)+"ms");
+
+
 
                 } catch (Exception e) {
                     log.error("erreur",e.getCause());
+                    oolog.error("Error on docId:"+doc.getId()+ " " +e.getMessage());
                 }
                 CurrentlyEditedCacheHelper.invalidate(doc);
                 
